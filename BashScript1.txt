@@ -1,0 +1,56 @@
+1   Detect whether the files in specified directories on two server are consistency.
+#!/bin/bash
+#Detect whether the files in specified directories on two server are consistency.
+#
+dir=/data/web
+b_ip=192.168.88.10
+#Traverse all the files in the specified directory, then use them as parameters of the MD5sum command. Write the md5 values of all files into the specified file.
+find $dir -type f | xargs md5sum > /tmp/md5_a.txt
+ssh $b_ip@username "find $dir -type f | xargs md5sum > /tmp/md5_b.txt"
+scp $b_ip@username:/tmp/md5_b.txt /tmp
+
+#Use file names as traversal objects for one-to-one comparison.
+for f in `awk '{print 2} /tmp/md5_a.txt'`
+do 
+    #
+    #Taking server a as the standard, when the file in server a does not exist in server b, the non-existent result is directly output.
+    if grep -qw "$f" /tmp/md5_b.txt
+    then 
+        md5_a=`grep -w "$f" /tmp/md5_a.txt | awk '{print 1}'`
+        md5_b=`grep -w "$f" /tmp/md5_b.txt | awk '{print 1}'`
+        #
+        #When the file exist in server b, but the md5 values are not same, "the file changed/deleted" is output.
+        if [ $md5_a != $md5_b ]
+        then 
+            echo "$f changed."
+        fi
+    else 
+        echo "$f deleted."
+    fi 
+done
+
+#!/bin/bash
+dir=/data/web 
+b_ip=192.168.88.10
+
+#Traverse all the files in the specified directory, then use them as parameters of the md5sum command. Write the md5 values of all files into the specifiedfile.
+find $dir -type f |xargs md5sum > /tmp/md5_a.txt 
+ssh $b_ip@username "find $dir -type f | xargs md5sum > /tmp/md5_b.txt"
+scp $b_ip@username:/tmp/md5_b.txt /tmp 
+
+#Use file names as traversal objects for one-to-one comparison.
+for f in `awk '{print 2} /tmp/md5_a.txt'`
+do 
+    if grep -qw "$f" /tmp/md5_b.txt
+    then 
+        md5_a=`grep -w "$f" /tmp/md5_a.txt | awk '{print 1}'`
+        md5_a=`grep -w "$f" /tmp/md5_b.txt | awk '{print 1}'`
+
+        if [ $md5_a != $md5.b ]
+        then 
+            echo "$f changed"
+        fi 
+    else 
+        echo "$f delete "
+    fi 
+done 
