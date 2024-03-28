@@ -114,3 +114,78 @@ fi
 #file1 -nt file2 Checks if file1 is newer than file2.
 #file1 -ot file Checks if file is older than file2.
 
+
+
+#!/bin/bash
+#Look before you leap
+#
+jump_directory=/home/arthur
+#
+if [ -d $jump_directory ]
+then
+    echo "The $jump_directory directory exists."
+    cd $jump_directory
+    ls 
+else 
+    echo "The $jump_directory directory does not exist."
+fi 
+
+
+#!/bin/bash
+#Testing if a file is empty.
+#
+file_name=$HOME/sentinel
+#
+if [ -f $file_name ]
+then 
+    if [ -s $file_name ]
+    then 
+        echo "the $file_name file exists and has data in it."
+        echo "Will not remove this file."
+    else 
+        echo "The $file_name file exists, but is empty."
+        echo "Deleting empty file ..."
+        rm $file_name
+    fi 
+else 
+    echo "File, $file_name, does not exist."
+fi 
+
+
+
+# [[ expression ]]  double breakets
+#The double breakets provides an additional feature -- a regular expression. 
+#test24.sh
+#!/bin/bash
+#using pattern matching
+#
+if [[ $USER == r* ]]
+then 
+    echo "Hello $USER"
+elso
+    echo "Sorry, I don't know you."
+fi 
+
+
+#case variable in
+#pattern1 | pattern2) command1;;
+pattern3) commands2;;
+*) default  command3;;
+esac
+
+
+#test26.sh
+#!/bin/bash
+#using the case command
+#
+case $USER in 
+rich | barbara)     echo -e "Welcom, $USER; \n Please enjoy your visit.";;
+testing)            echo "Special testing account";;
+jessica)            echo "Do not forget to log off when you're done.";;
+*) echo "Sorry, you are not allowed here."
+esac
+
+
+
+
+
