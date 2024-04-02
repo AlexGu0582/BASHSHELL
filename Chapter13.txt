@@ -205,7 +205,16 @@ done
 
 
 
+Test26: Creating multiple user accounts
+#!/bin/bash
+#process new user accounts
 
+input="users.csv"
+while IFS=',' read -r userid name
+do 
+    echo "adding $$serid"
+    useradd -c "$name" -m $userrid
+down < "$input"
 
 
 
