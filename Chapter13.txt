@@ -3,3 +3,210 @@ do
     commands
 done 
 
+#test2
+#!/bin/bash
+#Use the escape character (the backslash) to escape the single quotation mark.
+#Use double quotation marks to define the values that use single quotation marks.
+for test in I don\'t konw if "this'll" work
+do 
+    echo "word: $test"
+done
+
+$./test2
+word: I 
+word: don't 
+word: know 
+word: if 
+word: this'll 
+word: work 
+
+
+
+#test4
+#!/bin/bash 
+#using a variable to hold the list 
+
+list="Alabama Alaska Arizona Arkansas Colorado"
+list=$list" Connecticut"
+
+for state in $list 
+do 
+    echo "Have you ever visited $state?"
+done 
+
+
+
+#test5
+#!/bin/bash 
+#reading values from a file.
+
+file="states"
+
+for state in $(cat $file)
+do 
+    echo "Visit beautiful $state."
+done 
+
+
+
+#test5b
+#!/bin/bash
+#changing the filed separator
+#
+file="states"
+
+IFS=$'\n'
+
+for state in $(cat $file)
+do 
+    echo "Visit beautiful $state"
+done 
+
+
+#Caution: save the original IFS value before changing it and then restore it when you're finished.
+IFS.OLD=$IFS
+IFS=$'\n'
+#<use the new IFS value in code>
+IFS=$IFS.OLD 
+
+
+
+#specify more than one IFS character 
+IFS=$'\n':;"
+
+
+
+#test6
+#!/bin/bash
+#iterate through all the files in a directory
+
+for file in /home/rich/test/*
+do 
+    if [ -d "$file" ]
+    then 
+        echo "$file is a directory."
+    elif [ -f "$file" ]
+    then 
+        echo "$file is a file. "
+    fi 
+done 
+
+
+
+The C-Style for Command 
+for (( variable assignment ; condition ; iteration process ))
+do 
+    commands;
+done 
+
+
+Test9
+#!/bin/bash 
+#multiple variables
+
+for (( a=1, b=10; a <= 10; a++, b-- ))
+do 
+    echo "$a - $b"
+done 
+
+
+
+The while command 
+ 
+while test command 
+do 
+    other commands
+done 
+
+
+
+Using multiple test commands
+test11
+
+#!/bin/bash 
+#testing a multicommand while loop
+
+var1=10
+while echo $var1
+      [ $var1 -ge 0 ]
+do 
+    echo "this is inside the loop."
+    var1=$[ $var1 - 1 ]
+done 
+
+
+
+The until Command 
+until test commands
+do 
+    other commands 
+done 
+
+
+Test13
+#!/bin/bash 
+#using the until command with multiple test commands 
+
+var1=100
+
+until echo $var1 
+        [ $var1 -eq 0 ]
+do 
+    echo "Inside the loop: $var1."
+done 
+
+
+
+
+Nesting Loops
+
+Test15
+#!/bin/bash 
+#placing a for loop inside a while loop 
+
+var1=5
+
+while [ $var1 -ge 0 ]
+do 
+    echo "Outer loop: $var1"
+    for (( var2 = 1; $var2 < 3; var2++ ))
+    do 
+        var3=$[ $var1 * $var2 ]
+        echo "Inter loop: $var1 * $var2 = $var3"
+    done 
+    var1=$[ $var1 - 1 ]
+done 
+
+
+The break and continue command
+
+
+#Finding executable files: When you run a program from the command line, the Linux system searches a series of
+folders looking for that fi le. Those folders are defi ned in the PATH environment variable. If
+you want to fi nd out just what executable fi les are available on your system for you to use,
+just scan all the folders in the PATH environment variable.
+
+Test25
+#!/bin/bash
+#finding files in the PATH
+
+IFS=:
+for folder in $PATH
+do 
+    echo "$folder: "
+    for file in $folder/*
+    do 
+        if [ -x $file ]
+        then 
+            echo "    $file"
+        fi 
+    done 
+done 
+
+
+
+
+
+
+
+
