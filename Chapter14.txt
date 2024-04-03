@@ -1,0 +1,95 @@
+The positional parameter variables are standard numbers
+$0  being the script's name
+$1  being the first parameter 
+$2  being the second parameter 
+${10}   being the tenth parameter 
+
+test2.sh
+#!/bin/bash
+#testing two command line parameters
+#
+total=[ $1 * $2 ]
+echo The first parameter is $1.
+echo The second parameter is $2.
+echo The total value is $total.
+
+$./test2.sh 2 5
+The first parameter is 2.
+The second parameter is 5.
+The total value is 10.
+
+
+test7.sh 
+#!/bin/bash 
+#testing parameters before use 
+#
+if [ -n "$1" ]
+then 
+    echo Hello $1, glad to meet you.
+else 
+    echo "Sorry, you did not identify yourself."
+fi 
+
+
+Counting Patameters
+$# variable contains the number of command line parameters 
+${!#}
+
+
+test9.sh
+#!/bin/bash 
+#Testing Parameters $# and ${!#}
+#
+if [ $# -ne 2 ]
+then 
+    echo 
+    echo Usage: test9.sh a b 
+    echo 
+else 
+    total=[ $1 + $2 ]
+    echo 
+    echo The total is $total 
+    echo 
+fi 
+params=$#
+echo The last parameter is ${!#}.
+
+
+
+Grabbing all the data
+$* and $@
+$*: take all the parameters supplied on the command line as a single word.
+$@: takes all the parameters supplied on the command line as separate words in the same string.
+
+test12.sh 
+#!/bin/bash
+#testing $* and $@
+#
+echo 
+count=1
+#
+for param in "$*"
+do 
+    echo "\$* Parameter $count = $param"
+    count=$[ $count + 1 ]
+done
+#
+echo 
+count=1
+#
+for param in "$@"
+do 
+    echo "\$@ Parameter #count = $param"
+    count=$[ $count + 1 ]
+done 
+
+$./test12.sh rich barbara katie jessica
+$* Parameter #1 = rich barbara katie jessica
+$@ Parameter #1 = rich
+$@ Parameter #2 = barbara
+$@ Parameter #3 = katie
+$@ Parameter #4 = jessica
+
+
+
+
