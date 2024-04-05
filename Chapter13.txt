@@ -212,7 +212,7 @@ Test26: Creating multiple user accounts
 input="users.csv"
 while IFS=',' read -r userid name
 do 
-    echo "adding $$serid"
+    echo "adding $userid"
     useradd -c "$name" -m $userrid
 down < "$input"
 

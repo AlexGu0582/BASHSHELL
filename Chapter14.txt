@@ -92,4 +92,134 @@ $@ Parameter #4 = jessica
 
 
 
+Being Shifty
+"shift":    When you use the shift command, it moves each parameter variable one position to the left by default. 
+
+test13.sh 
+#!/bin/bash 
+#demonstrating the shift command
+echo 
+count=1
+while [ -n "$1" ]
+do 
+    echo "Parameter #$count = $1 "
+    count=$[ $count + 1 ]
+    shift 
+done 
+
+$./test13.sh rich barbara katie jessica
+Parameter #1 = rich
+Parameter #2 = barbara
+Parameter #3 = katie
+Parameter #4 = jessica
+$
+
+
+A multi-position shift 
+shift 2
+
+
+Separating option from parameters 
+"--"the double dash: shell uses the double dash to indicate the end of the option list.
+
+test16.sh 
+#!/bin/bash
+#extracting options and parameters 
+echo 
+while [ -n "$1" ]
+do 
+    case "$1" in 
+        -a) echo "Found the -a option";;
+        -b) echo "Found the -b option";;
+        -c) echo "Found the -c option";;
+        --) shift 
+            break;;
+        *)  echo "$1 is not an option";;
+    esac
+    shift 
+done 
+#
+count=1
+for param in $@
+do 
+    echo "Parameter #$count: $param"
+    count=$[ $count + 1 ]
+done 
+
+$./test16.sh -c -a -b -- test1 test2 test3
+Found the -c option
+Found the -a option
+Found the -b option
+Parameter #1: test1
+Parameter #2: test2
+Parameter #3: test3
+
+
+
+
+
+Getting User Input
+
+read:   accepts input either from standard input or from another file descriptor.
+
+test21.sh
+#!/bin/bash
+#testing the read command
+#
+echo -n "Enter your name: "
+read name 
+echo "Hello $name, welcome to my program."
+
+
+test23.sh
+#!/bin/bash
+#entering multiple variables 
+#
+read -p "Enter your name: " first last 
+echo "Checking data for $last $first"
+
+$./test23.sh 
+Enter your name: Rich Blum
+Checking data for Blum, Rich
+
+
+
+
+Timing Out
+#!/bin/bash 
+#timing the data entry
+#
+if  read -t 5 -p "Please enter your name: " name 
+then 
+    echo "Hello $name, welcome to my script."
+else 
+    echo 
+    echo "Sorry, too slow."
+fi 
+
+
+Reading with no desplay
+
+read -s -p "Enter your password: " pass 
+
+
+Reading from a file
+test28.sh 
+
+#!/bin/bash
+#reading  data from a file 
+#
+count=1
+cat test  | while read line 
+do 
+    echo "Line $count : $line "
+    count=$[ $count + 1 ]
+done 
+
+
+
+
+
+
+
 
