@@ -1,0 +1,41 @@
+Redirecting error only
+
+command 2> file
+
+ls -al test badtest test2 2> test5
+-rw-rw-r-- 1 rich rich 158 2014-10-16 11:32 test2
+
+$ cat test5
+ls: cannot access test: No such file or directory
+ls: cannot access badtest: No such file or directory
+
+
+Redirecting errors and data
+
+command 2> file1 1> file2
+
+
+redirecting both STDERR and STDOUT output to the same output file 
+
+command &> outputfile
+
+
+test23.sh 
+#!/bin/bash 
+#read file and create INSERT statement for MySQL
+
+outfile='members.sql'
+IFS=','
+while read lname fname address city state zip
+do 
+    cat >> $outfile << EOF
+        INSERT INTO members (lname,fname,address,city,state,zip) VALUES ('$lname', '$fname', '$address', '$city', '$state', '$zip')
+    EOF
+done < ${1}
+
+
+
+
+
+
+
