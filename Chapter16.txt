@@ -1,0 +1,81 @@
+Script Control
+
+Signaling the bash Shell
+
+Signal  Value       Description
+1       SIGHUP      Hangs up the process
+2       SIGINT      Interrupts the process 
+3       SIGQUIT     Stop the process 
+9       SIGKILL     Unconditionally terminates the process 
+15      SIGTERM     Terminates the process if possible
+17      SIGSTOP     Unconditionally stops, but does not terminate, the process
+18      SIGTSTP     Stops or pauses the process, but does not terminate 
+19      SIGCONT     Continutes a stopped process 
+
+
+
+The "Ctrl+C" key combination send a SIGINT signal.
+
+The "Ctrl+Z" key combination send a SIGTSTP signal.
+
+
+Trapping signals
+trap commands signals 
+
+test1.Sh 
+#!/bin/bash 
+#Testing signal trapping 
+#
+trap "echo ' Sorry, I have trapped Ctrl+C'" SIGINT 
+#
+echo "This is a test script"
+#
+count=1
+while [ $count -le 10 ]
+do 
+    echo "Loop #$count"
+    sleep 1
+    count=$[ $count + 1 ]
+done 
+#
+echo "This is the end of the test script."
+#
+
+
+Removing a trap 
+test3b.sh 
+#!/bin/bash 
+#Removing a set trap 
+#
+trap "echo '  Sorry... Ctrl+C is trapped.'" SIGINT 
+#
+count=1
+while [ $count -le 5 ]
+do 
+    echo "Loop $count"
+    sleep 1
+    count=$[ $count + 1 ]
+done 
+#
+#Removing the trap 
+trap -- SIGINT 
+echo "I just removed the trap."
+#
+count=1
+while [ $count + 1 ]
+do 
+    echo "Second Loop #$count"
+    sleep 1
+    count=$[ $count + 1 ]
+done 
+#
+
+
+Running in the background
+#When you place the ampersand symbol (&) after a command, it seperates the command from the bash shell and runs it as a separate background process on the system.
+$./filename.sh &
+[1] 3231
+#The number in the square brackets is the job number assigned by the bash shell to the background process.
+
+
+
