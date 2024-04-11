@@ -131,6 +131,44 @@ min hour dayofmonth month dayofweek command
 #This checks every day at 12 noon to see if it's the last day of the month, and if so, cron runs the command.
 00 12 * * * if [ `date +%d -d tomorrow` = 01 ] ; then ; command ; fi 
 
-To list an existing cron table, use the -l parameter:
+Create or Edit Crontab File 
+$crontab -e 
+
+To schedule a job for a different user, add the -u option and the username
+$crontab -u [username] -e 
+
+
+To list/check an existing cron table, use the -l parameter:
 $crontab -l 
 
+Using Operators
+An asterisk (*) substitutes all possible values for a time field. For example, when used in the day field, it indicates that the task should be executed every day.
+An asterisk (*) substitutes all possible values for a time field. For example, when used in the day field, it indicates that the task should be executed every day.
+A dash (-) defines a range of values in a single field. Entering 15-18 in the minute field instructs Cron to run a task every minute between and including the 15th and 18th minute.
+A forward slash (/) divides a field value into increments. For example, */30 in the minute field means that the task is run every 30 minutes.
+
+
+Cron job on Linux: Examples
+
+Run Cron job                    Command 
+Every Minute                    * * * * * /path/to/script 
+Every 15 minutes                */15 * * * * * * * * * /path/to/script 
+On the 30th Minute of Everup    30 * * * * /path/to/script
+Every 15 Minutes	            */15 * * * * /path/to/script
+On the 30th Minute of Every Hour	30 * * * * /path/to/script
+At the Beginning of Every Hour	0 * * * * /path/to/script
+Every Day at Midnight	0 0 * * * /path/to/script
+At 2 AM Every Day	0 2 * * * /path/to/script
+Every 1st of the Month	0 0 1 * * /path/to/script
+Every 15th of the Month	0 0 15 * * /path/to/script
+On December 1st - Midnight	0 0 1 12 * /path/to/script
+Saturdays at Midnight	0 0 * * 6 /path/to/script
+Every Weekday at 4 AM	0 4 * * 1-5 /path/to/script
+At 4 AM on Tuesdays and Thursdays	0 4 * * 2,4 /path/to/script
+Every Other Day at 37 Minutes Past the Hour	37 1-23/2 * * * /path/to/script
+Every 20 Minutes - Multiple Scripts	*/20 * * * * /path/to/script1; /path/to/script2
+On Saturdays and Sundays at 12 PM	0 12 * * 6,0 /path/to/script
+Monday to Friday - Every Hour 9 AM to 5 PM	0 9-17 * * 1-5 /path/to/script
+Every Hour from 5 PM on Wednesday to 5 AM on Thursday (Job Spans Two Days)	0 17-23 * * 3 /path/to/script
+0 0-5 * * 4 /path/to/script
+Midnight Every Day - Send Output to a Different File	0 0 * * * /path/to/script > /path/to/output.log 2>&1
