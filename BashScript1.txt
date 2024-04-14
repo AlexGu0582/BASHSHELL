@@ -29,3 +29,60 @@ do
     fi 
 done
 
+
+
+
+2     Clear file contents regularly, record file size regular
+#!/bin/bash 
+#
+#Run the script every hours. When the times is 0 or 12, clear the contents of all files in the directory, but do not delete files. 
+#At other times, only count the size of each file, one file per line, then output to a file named with time and date.
+#
+logfile=/tmp/`date +%H-%F`.log 
+n=`date +%H`
+
+if [ $n -eq 00 ] || [ $n -eq 12 ]
+then
+#Through the for loop, use the find command as the traversal condition to traverse all files in the target directory.
+    for i in `find /data/log/ -type f`
+    do 
+        true > $i 
+    done 
+else 
+    for i in `find /data/log/ -type f`
+    do 
+        du -sh $i >> $logfile
+    done
+fi
+#
+
+
+
+3   Check the network card traffic and record it in the log according to the specified format
+#!/bin/bash 
+#Recorded once a minute, the log format is as follows：
+#2019-08-12 20:40
+#ens33 input: 1234bps
+#ens33 output: 1234bps
+#
+while :
+do 
+    logfile=/tmp/`date +%d`.log 
+#Redirect the output of the command executed below to the logfile log 
+    exec >> $logfile 
+    date +“%F %H:%M”
+#
+#The trafic unit counted by the sar command is kb/s, and the log filel is bps.
+sar -n DEV 1 59 | grep Average | grep ens33 | awk '{print $2, "\t", "input:", "\t", $5*1000*8,}'
+
+done 
+
+
+4   Count the number of digit that appear in each line of the documents, and count the entir document, and count the entir document.
+
+
+
+
+
+
+
