@@ -78,7 +78,23 @@ sar -n DEV 1 59 | grep Average | grep ens33 | awk '{print $2, "\t", "input:", "\
 done 
 
 
-4   Count the number of digit that appear in each line of the documents, and count the entir document, and count the entir document.
+4   Count the number of digit that appear in each line of the documents, and count the total number of numbers in the entir document.
+#!/bin/bash 
+#
+#Count the number of digit that appear in each line of the documents, and count the total number of numbers in the entir document.
+#Use "awk" to output the number of document lines.
+n=`wc -l a.txt | awk '{print $1}'`
+sum=0
+#There may be sapces in each line of the document, so the document content can not be traversed directly.
+for i in `seq 1 $n`
+do 
+    line=`sed -n "$i"p a.txt`
+    n_n=`echo $line|sed s'/[^0-9]//'g|wc -L`
+    echo $n_n
+    sum=$[ $sum + $n_n ]
+done 
+echo "sum: $sum"
+
 
 
 

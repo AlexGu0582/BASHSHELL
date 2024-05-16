@@ -1,0 +1,256 @@
+#Linux has two popular regular expression engines:
+    #The POSIX Basic Regular Expression (BRE) engine 
+    #The POSIX Extended Regular Expression (ERE) engine 
+
+    
+
+#Anchor characters
+    #starting at the beginning
+    #the caret character (^)
+    $echo "The book store" | sed -n '/^book/p'
+    $
+    $echo "Books are great" | sed -n '/^Book/p'
+    Books are great
+
+
+    #Looking for the ending 
+    #The doller sign ($) speifical character defines the end anchor.
+    $echo "This is a good book" | sed -n '/book$/p'
+    This is a good book.
+    $echo "This book is good" | sed -n '/book/'
+
+    #The dot character
+    #The doc character match any single character except a newline character.
+    $sed -n '/.at/p' filename
+
+
+
+    #Character clsaaes
+    #To define a character class, you use square brackets. The brackets should contain any character you want to include in the class.
+    $ cat data6
+    This is a test of a line.
+    The cat is sleeping.
+    That is a very nice hat.
+    This test is at line four.
+    $sed -n '/[ch]at/p' data6
+    The cat is sleeping.
+    That is a very nice hat.
+
+
+#Ensure that you match against only five numbers
+$ cat data8
+60633
+46201
+223001
+4353
+22203
+$sed -n '/^[0123456789][0123456789][0123456789][0123456789]$/' data8
+60633
+46201
+22203
+$
+
+#Negating character classes
+$sed -n '/^XX/p' filename
+$
+
+
+#Using ranges
+$sed -n '/^[0-9][0-9][0-9][0-9]$/' data8
+60633
+46201
+45902
+$
+
+#BRE contains seial character classes
+Class           Description
+[[:alpha:]]     Matches any alphabetical character, either upper or lower case
+[[:alnum:]]     Matches any alphanumeric character 0–9, A–Z, or a–z
+[[:blank:]]     Matches a space or Tab character
+[[:digit:]]     Matches a numerical digit from 0 through 9
+[[:lower:]]     Matches any lowercase alphabetical character a–z
+[[:upper:]]     Matches any uppercase alphabetical character A–Z
+[[:print:]]     Matches any printable character
+[[:punct:]]     Matches a punctuation character
+[[:space:]]     Matches any whitespace character: space, Tab, NL, FF, VT, CR
+
+
+$echo "abc" | sed -n '/[[:alpha:]]/p'
+abc
+$echo "abc" | sed -n '/[[:digit:]]/p'
+$
+
+#The asterisk *
+#Placing an asterisk after a character signifies that the character must appear zero or more times in the text to match the pattern:
+$echo "ik" | sed -n '/ie*k/p'
+ik
+$echo "ieek" | sed -n '/ie*k/p'
+ieek
+$
+
+#Combining the dot special character with the asterisk special character: '.*'
+#This combination provides a pattern to match any number of any characters.
+$echo "this is a regular pattern expression" | sed -n '/regular.*expression/p'
+this is a regular expression
+$
+
+
+#[xx]*  The asterisk can also be applied to a character class, specifying a group or range of characters that can appear more than once in the text.
+$echo "bt" | sed -n '/b[ae]*t/p'
+bt
+$echo "baaeeet" | sed -n '/b[ae]*t/p'
+baaeet
+$
+
+
+
+
+#Extended Regular Expressions
+#
+#The question mark ?    indicates that the preceding character can appear zero or one time
+$echo "bt" | gawk '/be?t/{print $0}'
+bt
+$echo "bet" | gawk '/be?t/{print $0}'
+bet
+$echo "bt" | gawk '/b[ae]?t/{print $0}'
+bt
+$echo "beet" | gawk '/b[ae]?t/{print $0}'
+$
+$
+
+#The plus sign '+'  indicates that the preceding character can appear one or more times, but must be present at least once.
+$echo "beeet" | gawk '/be+t/{print $0}'
+beeet
+$echo "bet" | gawk '/be+t/{print $0}'
+bet
+$echo "bt" | gawk '/be+t/{print $0}'
+$
+$
+
+#Using braces '{}'
+#Braces {} is often referred to as an interval. 
+    #m: The regular expression appears exactly m times;
+    #m,n: The regular expression appears at least m times, but no more than n times.
+$ echo "bt" | gawk --re-interval '/be{1,2}t/{print $0}'
+$
+$ echo "beet" | gawk --re-interval '/be{1,2}t/{print $0}'
+beet
+$ echo "beeet" | gawk --re-interval '/be{1,2}t/{print $0}'
+$
+$ echo "bt" | gawk --re-interval '/b[ae]{1,2}t/{print $0}'
+$
+
+
+$ echo "bat" | gawk --re-interval '/b[ae]{1,2}t/{print $0}'
+bat
+$ echo "beet" | gawk --re-interval '/b[ae]{1,2}t/{print $0}'
+beet
+$ echo "beeat" | gawk --re-interval '/b[ae]{1,2}t/{print $0}'
+$
+$ echo "baeet" | gawk --re-interval '/b[ae]{1,2}t/{print $0}'
+$
+
+
+#The pipe symbol '|'    allows to you to specify two or more patterns that the regular expression engine uses in a logical or formula when examining the data stream.
+    #expr1|expr2|...
+$echo "The cat is asleep" | gawk '/cat|dog/{print $0}'
+The cat is asleep
+$echo "The dog is asleep" | gawk '/cat|dog/{print $0}'
+The dog is asleep
+$echo "The sheep is asleep" | gawk '/cat|dog/{print $0}'
+$
+
+$echo "He has a hat" | gawk '/[ch]at|dog/{print $0}'
+He has a hat
+
+
+
+#Grouping expressions
+$echo "Sat" | gawk '/Sat(urday)?/{print $0}'
+Sat
+$echo "Saturday" | gawk '/Sat(urday)?/{print $0}'
+Saturday
+
+
+$echo "cat" | gawk '/(c|b)a(b|t)/{print $0}'
+cat
+$echo "bab" | gawk '/(c|b)a(b|t)/{print $0}'
+bab
+$
+
+
+#Regular Expressions in Action 
+$echo $PATH
+/urs/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+$
+$echo $PATH | sed 's/:/ /g'
+/usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/games /usr/local/games
+$
+$cat countfiles
+#!/bin/bash
+#count number of files in your PATH
+mypath=$(echo $PATH | sed 's/:/ /g')
+count=0
+for directory in $mypath
+do 
+    check=$(ls $directory)
+    for item in $check
+    do
+        count=$[ $count + 1 ]
+    done
+    echo "$directory - $count"
+    count=0
+done
+$./countfiles
+/usr/local/sbin - 0
+/usr/local/bin - 2
+/usr/sbin - 213
+/usr/bin - 1427
+/sbin - 186
+/bin - 152
+/usr/games - 5
+/usr/local/games – 0
+$
+
+
+#Validating a phone number
+(123)456-7890
+(123) 456-7890
+123-456-7890
+123.456.7890
+
+^\(?[1-9][0-9]{2}\)?(| |-|\.)[0-9]{3}( |-|\.)[0-9]{4}$
+
+
+
+#Parsing an email address
+username@hostname
+
+^([a-zA-Z0-9_\-\.\+]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
