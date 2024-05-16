@@ -1,0 +1,164 @@
+Find files based on their permissions
+7   Find files with 777 Permissions 
+    $find . -type f -perm 0777 -print 
+
+8   Find files without 777 Permissions 
+    $find / -type f ! -perm 777
+
+9  Find files with 777 permissions and chmod to 644
+    $find / -type f -perm 777 -print -exec chmod 644 {} \;
+
+10  Find and remove Multiple files 
+    $find . -type f -name "*.txt" -exec rm -f {}\;
+
+11  Find and remove all empty files 
+    $find . -type f -empty -exec rm -f {}\;
+
+12  Find and remove all empty folders
+    $find . -type d -empty -exec rm -fd {}\;
+
+Search files based on owners and Groups
+13  Find single file based on user
+    $find /home -user username
+
+14  Find all files based on Group 
+    $find /home -group groupname
+
+15  Find particular files of user 
+    $find /home -user tecmint -iname "*.txt"
+
+
+Find files and directories based on date and time
+16  Find last 50 days modified files
+    $find /home -mtime 50
+
+17  Find last 50 days accessed files 
+    $find /home -atime 50
+
+18  Find last 50-100 days modified files 
+    $find /home -mtime +50 -mtime -100 
+
+19  Find accessed files in last 1 hour
+    $find /home -amin -60
+    
+20  Find modified files in last 2 hours
+    $find /home -mmin -60
+
+
+Find files and directories based on size 
+
+21  Find 50mb files 
+    $find /home -size 50M 
+
+22  Find size between 50mb to 100mb
+    $find /home -size +50M -size -100M
+
+
+Find Multiple Filenames
+23  Find all files in the current directory with .sh and .txt file extensions
+    Interpretation: -o means "or"
+    $find . -type f \( -name "*.sh" -o -name "*.txt"\)
+
+24  Find three filenames with .sh, .txt and .c extensions 
+    $find . -type f \( -name "*.sh" -o -name "*.txt" -o -name "*.c" \)
+
+
+
+
+Grep 
+
+grep : Global search REgular expression and Print out the line
+
+grep [OPTIONS] PATTERN [FILE...]
+
+
+1   Use grep command to search a file 
+    $grep [OPTIONS] pattern files 
+
+    $grep nux introduction
+    $grep "operation system" introduction 
+
+
+2   Search multiple files using grep command 
+    $grep pattern file1 file2 file3
+
+    $ grep opera intro test test2
+
+3   Perform case sensitive search using grep command 
+    $grep -i pattern file_name
+
+    $grep -i system introduction 
+
+4   grep command to search whole word (exact word) only 
+    $grep -w pattern file_name
+
+    $grep -w computer introduction 
+    Between computer user and computer hardware.
+    $grep -w com introduction 
+    
+
+5   Count the number of lines using grep command 
+    #grep -c command counts the number of lines that contain matching pattern in a file and prints.
+    $grep -c user introduction 
+    4 
+
+
+6   Inverse the search in grep command 
+    #"grep -v" command can be used to inverse the search and print all line that do not contain the matching patter.
+    $grep -v patter filename 
+
+7   grep command to print line number 
+    #"grep -n" prints the line number of the pattern that is matched. It is useful command to locate characters in large files.
+    $grep -n patter filename 
+
+    $grep -n ed test2 
+    2: ... based ...
+    5: Linux ...based on ...
+
+8   Search all files in directory using grep command 
+    #grep command allows you to search all files in the current directory using asterisk(*). It does not search files that are in the sub-directories.
+    $grep pattern /Path/*
+
+9   grep command to search in directories and sub-directories 
+    #This command searches the matches in all files in the current directory including its sub-directories. It also prints the exact path for the file in sub-directories.
+    $grep -r pattern /path/*
+
+10  grep command to print list of matching files only 
+    #"grep -l" command prints the file names only that contain the matching patterns instead of printing the whole line. It is a useful command when you want to know file names only.
+    #grep -l -r temperary /path/*
+    /path/New/Hello
+    /path/test1
+    /path/test2 
+
+11  Print files name having unmatched pattern using grep command 
+    #This is just the opposite version of "grep -l" command. You can print the name of file that do not contain the matching patterns using "grep -L" command.
+    $grep -L pattern /path/*
+
+
+12  Take pattern from file using grep command 
+    #"grep -f" command allows you to take pattern from file. It takes pattern from each line 
+    $grep -f pattern_file filename
+
+13  Search lines that start with pattern using grep command 
+    #You can search specific lines that start with a pattern using "grep" command. It does not print other lines that contain the matching pattern elsewhere.
+    $grep ^pattern filename
+
+    $grep ^"Linux System" /etc/*
+
+14  grep command to search lines that end with matching pattern 
+    #You can also search specific lines that end with a pattern using "grep" command. You have to put dollar sign ($) in the end of pattern.
+    $grep pattern$ filename 
+
+    $grep ty.$ introduction 
+    ...... system utility.
+    ...... offensive Security.
+
+15  Search for multiple pattern with single command using grep command.
+    #"grep -e" command allows you to use multiple patterns at once. -e option indicates an expression in the grep command. 
+    $grep -e pattern1 -e pattern2 -e pattern3 file name 
+
+    
+
+
+
+

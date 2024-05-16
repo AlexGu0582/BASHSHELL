@@ -1,0 +1,97 @@
+sed option script file
+#The sed editor does not modify the data in the text file itsef. It only sends the modified text to STDOUT.
+
+$cat data1.txt 
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+$sed 's/dog/cat/' data1.txt 
+The quick brown fox jumps over the lazy cat.
+The quick brown fox jumps over the lazy cat.
+The quick brown fox jumps over the lazy cat.
+The quick brown fox jumps over the lazy cat.
+
+#Using multiple editor commands in the command line
+
+sed -e scritps file 
+$sed -e 's/brown/green/; s/dog/cat/' data1.txt 
+The quick green fox jumps over the lazy cat.
+The quick green fox jumps over the lazy cat.
+The quick green fox jumps over the lazy cat.
+The quick green fox jumps over the lazy cat.
+
+#Instead of using a semicolon to separate the commands, you can use the secondary prompt in the bash shell.
+$ sed -e '
+> s/brown/green/
+> s/fox/elephant/
+> s/dog/cat/' data1.txt
+The quick green elephant jumps over the lazy cat.
+The quick green elephant jumps over the lazy cat.
+The quick green elephant jumps over the lazy cat.
+The quick green elephant jumps over the lazy cat.
+
+
+#Reading editor commands from a file 
+$cat script1.sed 
+s/brown/green/
+s/fox/elephant/
+s/dog/cat/
+$
+$sed -f script1.sed data1.txt 
+The quick green elephant jumps over the lazy cat.
+The quick green elephant jumps over the lazy cat.
+The quick green elephant jumps over the lazy cat.
+The quick green elephant jumps over the lazy cat.
+
+
+
+#sed 's/pattern/replacement/flags' file 
+    #A number, indicating the pattern occurrence for which new text should be substituted
+    #g, indicating that new text should be substituted for all occurrences of the exixting text 
+    #p, indicating that the contents of the original line should be printed
+    #w filename, which means to write the results of the subtitution to a file 
+
+$cat data4.txt 
+This is a test of the test script.
+This is the second test of the test script.
+$
+$sed 's/test/trial/2'
+This is a test of the trial script.
+This is the second test of the trial script.
+
+
+$cat data5.txt 
+This is a test line.
+This is a different line.
+$
+$sed -n 's/test/trial/p' data5.txt 
+This is a trial line.
+$
+$sed 's/test/trial/w test.txt' data5.txt 
+This is a trial line.
+This is a different line.
+$
+$cat test.txt 
+This is a trial line.
+This is a different line.
+#"w filename": The normal output of the sed editor appears in STDOUT.
+
+
+#Replacing Characters
+$sed 's!/bin/bash!bin/csh!' /etc/passwod
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
