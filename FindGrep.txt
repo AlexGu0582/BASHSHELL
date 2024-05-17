@@ -1,3 +1,36 @@
+Find
+Syntax
+$find [where to start searching from] [expression determiss what to find] [-option] [what to find]
+
+Options:
+    -exec cmd: The file being searched which meets the above criteria and returns 0 for as its exit status for successful command execution.
+    -name demo: Search for files that are specified by 'demo'.
+    -newer file : Search for files that were modified/created after 'file'.
+    -perm octal : Search for the file if permission is 'octal'.
+    -print : Display the path name of the files found by using the rest of the criteria.
+    -empty : Search for empty files and directories.
+    -size +N/-N : Search for files of 'N' blocks; '+N' means size > N blocks, '-N' means size < 'N' blocks.
+    -user name : Search for files owned by username or ID 'name'.
+
+1. Find files using name in Current Directory
+   $find . -name tecmint.txt
+
+2. Find files under /home Directory 
+    $find /home -name tecmint.txt 
+
+3. Find files using name and ignoring case
+    Find all the files whose name is "tecmint.txt" and contains both capital and small letters in /home Directory
+    $find /home -iname tecmint.txt 
+
+4. Find Directories using name 
+    $find / -type d -name Tecmint 
+
+5. Find PHP files using name 
+    $find / -type f -name tecmint.php 
+
+6. Find all PHP files in the directory 
+    $find / -type f -name *.php 
+
 Find files based on their permissions
 7   Find files with 777 Permissions 
     $find . -type f -perm 0777 -print 
@@ -158,7 +191,6 @@ grep [OPTIONS] PATTERN [FILE...]
     $grep -e pattern1 -e pattern2 -e pattern3 file name 
 
     
-
 
 
 
